@@ -2,7 +2,7 @@
 import { ref, reactive, computed } from "vue";
 import navBar from "@/components/NavBar.vue";
 import sHeader from "@/components/Header.vue";
-import menuFromBackend from "@/common/js/util.js";
+import { menuFromBackend } from "@/common/js/util.js";
 import { useRouter } from "vue-router";
 import { useOrderStore } from "@/stores/order";
 
@@ -39,7 +39,6 @@ function removeDish(id) {
 
 function addDish(id) {
   state.checkedList[id] ? state.checkedList[id]++ : (state.checkedList[id] = 1);
-  console.log(totalPrice.value);
 }
 
 function showDatail(event) {
@@ -54,9 +53,21 @@ function showDatail(event) {
 }
 
 function createOrder() {
-  console.log("checkedList:", state.checkedList);
-  order.submitOrder();
-  //   router.push("/order");
+  const orderDetail = {};
+  orderDetail["total"] = totalPrice.value;
+  orderDetail["time"] = new Date(Date.now());
+  const dishInfo = {};
+  for (const id in state.checkedList) {
+    dishInfo[id] = {
+      name: currentMenu.value[id].name,
+      price: currentMenu.value[id].price,
+      count: state.checkedList[id],
+    };
+  }
+  orderDetail["dishInfo"] = dishInfo;
+  orderDetail["pay"] = "去支付";
+  order.orderList.push(orderDetail);
+  router.push("/order");
 }
 </script>
 

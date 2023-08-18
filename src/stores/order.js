@@ -1,29 +1,23 @@
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { defineStore } from "pinia";
 
 export const useOrderStore = defineStore("order", () => {
-  const orderList = ref([]);
+  const orderList = reactive([]);
+
   function createOrder() {
     const orderObj = {
-      orderID: "001",
-      orderDetail: {
+      total: 14,
+      time: "",
+      dishInfo: {
         "001": {
           name: "鱼香肉丝",
           price: 7,
           count: 2,
         },
-        "002": {
-          name: "宫保鸡丁",
-          price: 9,
-          count: 1,
-        },
       },
     };
     orderList.push(orderObj); // 添加订单
   }
-  function submitOrder(orderDetail) {
-    console.log("orderDetail:", orderDetail);
-    // orderList.push();
-  }
-  return { orderList, submitOrder };
+
+  return { orderList };
 });

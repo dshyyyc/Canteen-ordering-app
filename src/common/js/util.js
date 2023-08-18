@@ -1,4 +1,4 @@
-const menuFromBackend = [
+export const menuFromBackend = [
   {
     category: "早餐",
     menu: {
@@ -91,4 +91,15 @@ const menuFromBackend = [
   },
 ];
 
-export default menuFromBackend;
+// 将数字补全为x位
+export function padNumber(number, width) {
+  const numString = number.toString();
+  const diff = width - numString.length;
+
+  if (diff <= 0) {
+    return numString;
+  }
+
+  const padding = "0".repeat(diff);
+  return padding + numString;
+}
